@@ -1,10 +1,11 @@
 import React from 'react';
 
 
-function Footer (props){
+function Footer(props) {
     return (
-        <div>
-        </div>
+        <footer>
+            <p>&copy; Copyright {Date().split(' ')[3]}</p>
+        </footer>
     )
 }
 

@@ -10,7 +10,7 @@ function Form (props){
         e.target.reset()
     }
     return (
-        <form onSubmit={formHandler}>
+        <form onSubmit={formHandler} id='form'>
             <TextField label="Add task" name='task' variant="outlined" />
             <Button variant="contained" color="primary">
               Add

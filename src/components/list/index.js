@@ -1,14 +1,24 @@
 import React from 'react';
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Alert from '@material-ui/lab/Alert';
 
-function List (props){
+
+
+function TasksList(props) {
     return (
-        <div>
-            {props.tasksList.map(task=> {
-                return <p>{task}</p>
+        <List id='list' component="nav" aria-label="main mailbox folders">
+            {props.tasksList.map(task => {
+                return (
+                    <ListItem>
+                        <Alert severity="success"><ListItemText primary={ task} /></Alert>
+                    </ListItem>
+                )
             })}
-        </div>
+        </List>
     )
 }
 
-export default List;
+export default TasksList;
