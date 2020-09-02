@@ -1,4 +1,6 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 
 function Form (props){
@@ -9,11 +11,10 @@ function Form (props){
     }
     return (
         <form onSubmit={formHandler}>
-            <label>
-                Task
-                <input type='text' name='task'/>
-            </label>
-            <button>Add</button>
+            <TextField label="Add task" name='task' variant="outlined" />
+            <Button variant="contained" color="primary">
+              Add
+            </Button>
         </form>
     )
 }
