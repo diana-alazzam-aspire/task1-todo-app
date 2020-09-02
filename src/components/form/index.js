@@ -2,9 +2,19 @@ import React from 'react';
 
 
 function Form (props){
+    const formHandler = (e) =>{
+        e.preventDefault();
+        props.addTask(e.target.task.value);
+        e.target.reset()
+    }
     return (
-        <div>
-        </div>
+        <form onSubmit={formHandler}>
+            <label>
+                Task
+                <input type='text' name='task'/>
+            </label>
+            <button>Add</button>
+        </form>
     )
 }
 
