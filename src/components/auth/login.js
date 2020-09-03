@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginModal(props) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
@@ -35,20 +35,25 @@ function LoginModal(props) {
     };
     const formHandler = (e) => {
         e.preventDefault();
-        
-        const {username, password} = e.target;
-        let users = localStorage.getItem('users');
-        let loggedUser = users.split(',').filter((user)=>(username.value === user.split(' ')[0] && password.value === user.split(' ')[1]))
-        if (loggedUser.length) {
-            props.showTasks(loggedUser)
-        }
-        e.target.reset()
+
+        const { username, password } = e.target;
+        let users = JSON.parse(localStorage.getItem('users'));
+        users.forEach(user => {
+            console.log(user)
+            if ((username.value === user.username && password.value === user.password)) {
+                let loggedUser = user;
+                if (loggedUser.length) {
+                    props.showTasks(loggedUser)
+                    e.target.reset();
+                    handleClose();
+                }
+            }
+        })
     }
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Login
-            </button>
+            <Button onClick={handleOpen} variant="contained">Login</Button>
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -69,7 +74,7 @@ function LoginModal(props) {
                             <TextField required label="Username" name='username' variant="outlined" />
                             <TextField required type='password' label="Password" name='password' variant="outlined" />
                             <Button variant="contained" color="primary" type='submit'>
-                            Login
+                                Login
                             </Button>
                         </form>
                     </div>

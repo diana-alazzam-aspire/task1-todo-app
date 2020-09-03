@@ -6,7 +6,14 @@
 }
 #header {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+}
+#auth {
+  display: flex;
+  flex-direction: row;
+}
+#auth >* {
+  margin: 1vh;
 }
 #login-form-cont {
   width: 80vw;
@@ -71,5 +78,4 @@ footer {
   #modal-box {
     width: 75vw;
   }
-  
 }

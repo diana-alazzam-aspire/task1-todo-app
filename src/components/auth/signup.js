@@ -39,10 +39,17 @@ function SignupModal(props) {
         e.preventDefault();
 
         const { username, password } = e.target;
-        let usersList = usersState.slice();
-        usersList.push(`${username.value} ${password.value}`);
+        const userData = {username:username.value, password:password.value, tasks:[]}
+        const usersList = usersState.slice();
+        console.log(usersState, usersList, userData);
+        usersList.push(userData);
         setUsers(usersList);
-        localStorage.setItem('users', usersList);
+        localStorage.setItem('users', JSON.stringify(usersList));
+
+        // let usersList = usersState.slice();
+        // usersList.push(`${username.value} ${password.value}`);
+        // setUsers(usersList);
+        // localStorage.setItem('users', usersList);
         e.target.reset();
         handleClose();
     }
@@ -52,9 +59,8 @@ function SignupModal(props) {
     }, [])
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Sign-up
-            </button>
+            <Button onClick={handleOpen} variant="contained">Sign-up</Button>
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
