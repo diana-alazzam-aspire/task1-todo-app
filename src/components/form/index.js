@@ -12,7 +12,7 @@ function Form (props){
     return (
         <form onSubmit={formHandler} id='form'>
             <TextField label="Add task" name='task' variant="outlined" />
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" type='submit'>
               Add
             </Button>
         </form>
