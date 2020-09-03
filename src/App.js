@@ -12,13 +12,23 @@ function App() {
 
 
   const addTask = (task) => {
-    let newList = tasks.slice();
-    newList.push(task);
-    setTasks(newList);
-    localStorage.setItem('Tasks List', newList);
-    localStorage.setItem('users', newList)
-
+    let users = JSON.parse(localStorage.getItem('users'));
+    let modifiedUsers = users && users.map(user=> {
+      
+      if((user.username === currentUser.username) && (user.password === currentUser.password)){
+        let targetedUser = {...user};
+        targetedUser.tasks.push(task);
+        setTasks(targetedUser.tasks);
+        setCurrentUser(targetedUser);
+        localStorage.setItem('Current user', JSON.stringify(targetedUser))
+        return targetedUser;
+      } else {
+        return user;
+      }
+    });
+    localStorage.setItem('users', JSON.stringify(modifiedUsers))
   }
+
   const addCurrentUser = (userData) => {
     localStorage.setItem('Current user', JSON.stringify(userData));
     setCurrentUser(userData);
@@ -27,6 +37,7 @@ function App() {
   const logoutHandler = () => {
     setCurrentUser({});
     localStorage.removeItem('Current user');
+    setTasks([]);
   }
 
   useEffect(() => {
@@ -42,7 +53,7 @@ function App() {
   return (
     <div id='app'>
       <Header addCurrentUser={addCurrentUser} currentUser={currentUser} logout={logoutHandler} />
-      <Form addTask={addTask} />
+      <Form addTask={addTask} tasksList={tasks}/>
       <If condition={tasks.length}>
         <Then>
           <TasksList tasksList={tasks} />
