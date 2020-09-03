@@ -3,7 +3,8 @@ import './App.css';
 import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
-import List from './components/list';
+import TasksList from './components/list';
+
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -16,15 +17,15 @@ function App() {
   }
   useEffect(()=> {
     let localStorageTasksList = localStorage.getItem('Tasks List');
-    setTasks(localStorageTasksList.split(','));
-  },[])
+    if (localStorageTasksList) setTasks(localStorageTasksList.split(','));
+  },[]);
 
   return (
-    <div className="App">
+    <div id='app'>
       <Header/>
       <Form addTask={addTask}/>
-      <List tasksList={tasks}/>
-      <Footer />
+      <TasksList tasksList={tasks}/>
+      <Footer/>
     </div>
   );
 }
