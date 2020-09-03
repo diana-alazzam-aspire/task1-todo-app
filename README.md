@@ -2,6 +2,7 @@
 
 Task 1
 Wedenesday - 2/9/2020
+**Deployed** https://naughty-swartz-7fa49a.netlify.app/
 
 ## Task
 
