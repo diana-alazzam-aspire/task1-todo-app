@@ -8,6 +8,21 @@
   display: flex;
   justify-content: center;
 }
+#login-form-cont {
+  width: 80vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#login-form {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+#login-form > * {
+  margin: 1vh;
+}
 #form {
   width: 70vw;
   min-height: 20vh;
@@ -40,4 +55,21 @@ footer {
   max-height: 10vh;
   background-color: #212121;
   color: white;
+}
+
+#modal-box {
+  width: 25vw;
+  padding: 0vw 5vw;
+  opacity: 1;
+  height: 60vh;
+  transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12);
+  background-color: #fff;
+}
+
+@media only screen and (max-width: 768px) {
+  #modal-box {
+    width: 75vw;
+  }
+  
 }
