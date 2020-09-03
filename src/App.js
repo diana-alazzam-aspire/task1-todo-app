@@ -4,13 +4,14 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import TasksList from './components/list';
+import { If, Then } from './components/if/if';
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [currentUsername, setCurrentUsername] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
 
 
-  const addTask = (task)=> {
+  const addTask = (task) => {
     let newList = tasks.slice();
     newList.push(task);
     setTasks(newList);
@@ -18,27 +19,36 @@ function App() {
     localStorage.setItem('users', newList)
 
   }
-  const showTasks = (userData)=> {
-    localStorage.setItem('Current user', userData)
-    setCurrentUsername(userData[0].split(' ')[0]);
+  const addCurrentUser = (userData) => {
+    localStorage.setItem('Current user', JSON.stringify(userData));
+    setCurrentUser(userData);
     setTasks(userData.tasks)
   };
+  const logoutHandler = () => {
+    setCurrentUser({});
+    localStorage.removeItem('Current user');
+  }
 
-  useEffect(()=> {
-    let localStorageTasksList = localStorage.getItem('Tasks List');
-    // let localStorageCurrentUser = localStorage.getItem('Current user');
+  useEffect(() => {
+    let localStorageCurrentUser = JSON.parse(localStorage.getItem('Current user'));
 
-    if (localStorageTasksList) setTasks(localStorageTasksList.split(','));
+    if (localStorageCurrentUser) {
+      setCurrentUser(localStorageCurrentUser);
+      setTasks(localStorageCurrentUser.tasks);
+    };
 
-  },[]);
+  }, []);
 
   return (
     <div id='app'>
-      <Header showTasks={showTasks} currentUsername={currentUsername}/>
-      <Form addTask={addTask}/>
-      {/* add condition and show not found if there we no tasks */}
-      <TasksList tasksList={tasks}/>
-      <Footer/>
+      <Header addCurrentUser={addCurrentUser} currentUser={currentUser} logout={logoutHandler} />
+      <Form addTask={addTask} />
+      <If condition={tasks.length}>
+        <Then>
+          <TasksList tasksList={tasks} />
+        </Then>
+      </If>
+      <Footer />
     </div>
   );
 }

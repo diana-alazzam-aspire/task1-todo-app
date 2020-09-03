@@ -24,14 +24,13 @@ const useStyles = makeStyles((theme) => ({
 
 function SignupModal(props) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [usersState, setUsers] = useState([]);
 
 
     const handleOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -41,20 +40,14 @@ function SignupModal(props) {
         const { username, password } = e.target;
         const userData = {username:username.value, password:password.value, tasks:[]}
         const usersList = usersState.slice();
-        console.log(usersState, usersList, userData);
         usersList.push(userData);
         setUsers(usersList);
         localStorage.setItem('users', JSON.stringify(usersList));
-
-        // let usersList = usersState.slice();
-        // usersList.push(`${username.value} ${password.value}`);
-        // setUsers(usersList);
-        // localStorage.setItem('users', usersList);
         e.target.reset();
         handleClose();
     }
     useEffect(() => {
-        let savedUsers = localStorage.getItem('users');
+        let savedUsers = JSON.parse(localStorage.getItem('users'));
         if (savedUsers) setUsers(savedUsers);
     }, [])
     return (
