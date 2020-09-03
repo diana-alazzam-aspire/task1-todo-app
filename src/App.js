@@ -4,7 +4,6 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import TasksList from './components/list';
-import Login from './components/auth/login';
 
 function App() {
   const [tasks, setTasks] = useState([]);
