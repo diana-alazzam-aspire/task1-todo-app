@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -6,6 +6,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Alert from '@material-ui/lab/Alert';
+
+import { If, Then } from '../if/if';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginModal(props) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [alert, setAlert] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
@@ -35,20 +39,28 @@ function LoginModal(props) {
     };
     const formHandler = (e) => {
         e.preventDefault();
-        
-        const {username, password} = e.target;
-        let users = localStorage.getItem('users');
-        let loggedUser = users.split(',').filter((user)=>(username.value === user.split(' ')[0] && password.value === user.split(' ')[1]))
+
+        const { username, password } = e.target;
+        let users = JSON.parse(localStorage.getItem('users'));
+        let loggedUser = [];
+        users && users.forEach(user => {
+            if ((username.value === user.username) && (password.value === user.password)) {
+                loggedUser = [user];
+                setAlert(false);
+            }
+        })
         if (loggedUser.length) {
-            props.showTasks(loggedUser)
+            props.addCurrentUser(loggedUser[0])
+            e.target.reset();
+            handleClose();
+        } else {
+            setAlert(true);
         }
-        e.target.reset()
     }
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Login
-            </button>
+            <Button onClick={handleOpen} variant="contained">Login</Button>
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -62,14 +74,20 @@ function LoginModal(props) {
                 }}
                 style={{ backgroundColor: 'white' }}
             >
+
                 <Fade in={open}>
                     <div id='modal-box'>
                         <form onSubmit={formHandler} id='login-form'>
                             <p>Please Login to add new tasks</p>
+                            <If condition={alert}>
+                                <Then>
+                                    <Alert severity="error"> Incorrect</Alert>
+                                </Then>
+                            </If>
                             <TextField required label="Username" name='username' variant="outlined" />
                             <TextField required type='password' label="Password" name='password' variant="outlined" />
                             <Button variant="contained" color="primary" type='submit'>
-                            Login
+                                Login
                             </Button>
                         </form>
                     </div>

@@ -4,23 +4,36 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import SignupModal from '../auth/signup.js';
 import LoginModal from '../auth/login.js';
+import Button from '@material-ui/core/Button';
 
 
+import { If, Else, Then } from '../if/if';
 
 
 function Header(props) {
-
-    return (
-        <AppBar position="static">
-            <Toolbar id='header'>
-                <h2> To-Do APP </h2>
-                <SignupModal />
-                {/* put condition here to check if the user is signed in or not and show login/logout and add Link to each form */}
-                <LoginModal showTasks={props.showTasks} />
-
-            </Toolbar>
-        </AppBar>
-    )
+  return (
+    <AppBar position="static">
+      <Toolbar id='header'>
+        <div>
+          <h2> To-Do APP </h2>
+        </div>
+        <If condition={!props.currentUser.username}>
+          <Then>
+            <div id='auth'>
+              <SignupModal />
+              <LoginModal addCurrentUser={props.addCurrentUser} />
+            </div>
+          </Then>
+          <Else>
+            <div id='username'>
+              <h3>{props.currentUser.username}</h3>
+            </div>
+            <Button onClick={props.logout} variant="contained">Logout</Button>
+          </Else>
+        </If>
+      </Toolbar>
+    </AppBar>
+  )
 }
 
 export default Header;

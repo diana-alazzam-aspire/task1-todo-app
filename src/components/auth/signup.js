@@ -24,14 +24,13 @@ const useStyles = makeStyles((theme) => ({
 
 function SignupModal(props) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [usersState, setUsers] = useState([]);
 
 
     const handleOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -39,22 +38,22 @@ function SignupModal(props) {
         e.preventDefault();
 
         const { username, password } = e.target;
-        let usersList = usersState.slice();
-        usersList.push(`${username.value} ${password.value}`);
+        const userData = {username:username.value, password:password.value, tasks:[]}
+        const usersList = usersState.slice();
+        usersList.push(userData);
         setUsers(usersList);
-        localStorage.setItem('users', usersList);
+        localStorage.setItem('users', JSON.stringify(usersList));
         e.target.reset();
         handleClose();
     }
     useEffect(() => {
-        let savedUsers = localStorage.getItem('users');
+        let savedUsers = JSON.parse(localStorage.getItem('users'));
         if (savedUsers) setUsers(savedUsers);
     }, [])
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Sign-up
-            </button>
+            <Button onClick={handleOpen} variant="contained">Sign-up</Button>
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
